@@ -1,0 +1,45 @@
+//* Membuat Procedure Tanpa Parameter *//
+DELIMITER //
+CREATE PROCEDURE lihatuserid()
+BEGIN
+SELECT * FROM tbl_users;
+END
+//
+DELIMITER ;
+
+//* memanggil procedure Tanpa Parameter call*//
+CALL lihatuserid()
+
+//* Membuat Procedure Dengan Parameter *//
+DELIMITER //
+CREATE PROCEDURE ambilsatudatauser(IN id_pengguna INT)
+BEGIN
+SELECT * FROM tbl_users WHERE id_user=id_pengguna;
+END
+//
+DELIMITER ;
+
+//* memanggil procedure ambilsatudatauser*//
+CALL ambilsatudatauser(1)
+
+//* Membuat Function *//
+DELIMITER //
+
+CREATE FUNCTION tambahlike(like_awal INT(11))
+RETURNS INT(11)
+BEGIN
+	DECLARE hasil INT(11);
+    SET hasil = like_awal + 500;
+    RETURN hasil;
+END;
+
+//* Memasukkan Function tambahlike *//
+SELECT like_count, tambahlike(like_count) AS Like_Terbaru FROM `tbl_scraping`
+
+//* Membuat View *//
+CREATE VIEW Data_User AS
+SELECT tbl_users.id_user,username, name, ig_username, password
+FROM tbl_users
+INNER JOIN tbl_users_scrap_targets
+ON tbl_users.id_user = tbl_users_scrap_targets.id_user 
+
